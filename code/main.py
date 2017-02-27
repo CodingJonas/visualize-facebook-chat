@@ -8,7 +8,7 @@ import my_excepthook
 
 # The parsed data is saved, only if this is set to True the data will be parsed,
 # otherwise the parser will be loaded from a previously created file
-NEW_PARSER = False
+NEW_PARSER = True
 
 # Number of days to sum up for one circle
 DAYS_PER_CIRCLE = 14
@@ -21,7 +21,6 @@ def load_parser(new_parser):
         print("Parse messenger data")
         parser = FB_HTMLParser(DELTA_MINUTES)
         # Feed data
-        print("Read in data of messenger")
         parser.feed(data)
 
         # Save parser
@@ -46,8 +45,6 @@ if __name__ == "__main__":
 
     # Create custom html parser
     parser = load_parser(NEW_PARSER)
-
-    #  print("{" + "\n".join("{}: {}".format(k, v) for k, v in parser.final_data.items()) + "}")
 
     # Process found data
     print("Process found data")
