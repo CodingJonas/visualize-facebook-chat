@@ -1,2 +1,7 @@
-# visualize-facebook-chat
-Simple python project to visuallize your facebook chat history beautifully
+# Visualize your Facebook Chat
+Simple python project to visualize your facebook chat history into a beautifull circle diagram.
+
+# How to use this
+1. Download your [facebook history](https://www.facebook.com/help/212802592074644?in_context)
+2. Extract the file and copy the `<your_archive>/html/messages.htm` into this directory
+3. Run `python3 main.py`
