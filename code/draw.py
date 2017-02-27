@@ -129,7 +129,7 @@ def draw_dates_circle(data, sizeX=5000, sizeY=5000, thickness=7, min_radius=1, c
         #  screen.fill(BACKGROUND)
         screen.blit(image, (0,0))
         print("Save Image")
-        pygame.image.save(screen, "response_circle.png")
+        pygame.image.save(screen, "../images/response_circle.png")
 
 
         # Go ahead and update the screen with what we've drawn.

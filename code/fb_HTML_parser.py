@@ -4,10 +4,11 @@ from helper_fun import *
 
 
 class FB_HTMLParser(HTMLParser):
-    def __init__(self, delta_minutes):
+    def __init__(self, delta_minutes, user_name):
         HTMLParser.__init__(self)
 
         self.delta_minutes = delta_minutes
+        self.user_name = user_name
 
         self.nextData = 'nothing'  # important to map next message to a user
         self.div_level = 0
@@ -56,7 +57,7 @@ class FB_HTMLParser(HTMLParser):
 
     def handle_message(self, data):
         # Only save messages I wrote
-        if self.last_user == "Jonas Natzer":
+        if self.last_user == self.user_name:
             self.final_data[self.last_date] += len(data)
         # Add number of messages per user
         if self.last_user in self.message_user.keys():

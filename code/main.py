@@ -5,6 +5,8 @@ from datetime import datetime, timedelta
 from helper_fun import *
 import my_excepthook
 
+# Your facebook name, in order to extract the right data
+USER_NAME = "Jonas Natzer"
 
 # The parsed data is saved, only if this is set to True the data will be parsed,
 # otherwise the parser will be loaded from a previously created file
@@ -19,7 +21,7 @@ DELTA_MINUTES = 15
 def load_parser(new_parser):
     if(new_parser):
         print("Parse messenger data")
-        parser = FB_HTMLParser(DELTA_MINUTES)
+        parser = FB_HTMLParser(DELTA_MINUTES, USER_NAME)
         # Feed data
         parser.feed(data)
 
