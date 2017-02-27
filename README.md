@@ -1,3 +1,5 @@
+![Image](https://github.com/CodingJonas/visualize-facebook-chat/blob/master/images/response_circle.png)
+
 # Visualize your Facebook Chat
 Simple python project to visualize your facebook chat history into a beautifull circle diagram.
 
