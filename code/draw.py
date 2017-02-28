@@ -3,6 +3,7 @@ from pygame import gfxdraw
 import colorsys
 from math import pow
 import numpy as np
+import sys
 
 BLACK = (  0,   0,   0)
 WHITE = (255, 255, 255)
@@ -100,6 +101,10 @@ def draw_dates_circle(data, sizeX=5000, sizeY=5000, thickness=7, min_radius=1, c
             if new_val > max_val:
                 max_val = new_val
 
+        if max_val==0:
+            print("ERROR: Specified name was never found, did you use the right facebook name?")
+            sys.exit()
+
         # For convenient access to iterate over keys
         keys = list(data.keys())
 
@@ -108,6 +113,9 @@ def draw_dates_circle(data, sizeX=5000, sizeY=5000, thickness=7, min_radius=1, c
         circle_midY = int(sizeY/2)
         parts = len(data[keys[0]])
         delta_minutes = int(1440/parts)
+
+        # Start drawing
+        print("Draw image")
         for r in range(0, len(data)):
             for p in range(0,parts):
                 start = int(p * 360/(parts))

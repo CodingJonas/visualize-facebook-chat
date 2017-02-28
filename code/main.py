@@ -1,12 +1,10 @@
+import sys
 import pickle
 from fb_HTML_parser import FB_HTMLParser
 import draw
 from datetime import datetime, timedelta
 from helper_fun import *
 import my_excepthook
-
-# Your facebook name, in order to extract the right data
-USER_NAME = "Jonas Natzer"
 
 # The parsed data is saved, only if this is set to True the data will be parsed,
 # otherwise the parser will be loaded from a previously created file
@@ -18,10 +16,10 @@ DAYS_PER_CIRCLE = 14
 # Minutes to sum up to one segment of a circle
 DELTA_MINUTES = 15
 
-def load_parser(new_parser):
+def load_parser(new_parser, user_name):
     if(new_parser):
-        print("Parse messenger data")
-        parser = FB_HTMLParser(DELTA_MINUTES, USER_NAME)
+        print("Parse messenger data for user", user_name)
+        parser = FB_HTMLParser(DELTA_MINUTES, user_name)
         # Feed data
         parser.feed(data)
 
@@ -39,6 +37,7 @@ def load_parser(new_parser):
     return parser
 
 if __name__ == "__main__":
+    user_name = sys.argv[1]
     # Get messenger information from html document
     # oldest data is 2010-10-06 15:00:00-02:00
     with open('messages.htm', 'r') as myfile:
@@ -46,7 +45,7 @@ if __name__ == "__main__":
         data = myfile.read()
 
     # Create custom html parser
-    parser = load_parser(NEW_PARSER)
+    parser = load_parser(NEW_PARSER, user_name)
 
     # Process found data
     print("Process found data")
