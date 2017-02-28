@@ -38,8 +38,8 @@ def load_parser(new_parser, user_name):
 
 if __name__ == "__main__":
     user_name = sys.argv[1]
+
     # Get messenger information from html document
-    # oldest data is 2010-10-06 15:00:00-02:00
     with open('messages.htm', 'r') as myfile:
     #  with open('messages_fake_account.htm', 'r') as myfile:
         data = myfile.read()
@@ -50,14 +50,14 @@ if __name__ == "__main__":
     # Process found data
     print("Process found data")
 
-    # Always sum up the last 1 months
     data = parser.final_data
 
-    current_date = datetime(2010, 10, 6, 0)
+    current_date = list(data.keys())[0]
+    final_date = list(data.keys())[-1]
+
     time_delta = timedelta(days=DAYS_PER_CIRCLE)
     next_date = current_date + time_delta
 
-    final_date = datetime(2017,2,6,0)
     data_draw = {}
     size_day = int(24*(60/DELTA_MINUTES))
     data_draw[current_date] = dict.fromkeys([x*DELTA_MINUTES for x in range(0,size_day)], 0)
