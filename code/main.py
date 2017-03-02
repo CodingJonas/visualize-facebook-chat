@@ -40,7 +40,7 @@ if __name__ == "__main__":
     user_name = sys.argv[1]
 
     # Get messenger information from html document
-    with open('messages.htm', 'r') as myfile:
+    with open('../messages.htm', 'r') as myfile:
     #  with open('messages_fake_account.htm', 'r') as myfile:
         data = myfile.read()
 

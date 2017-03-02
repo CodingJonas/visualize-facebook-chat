@@ -5,5 +5,5 @@ Simple python project to visualize your facebook chat history into a beautifull 
 
 # How to use this
 1. Download your [facebook history](https://www.facebook.com/help/212802592074644?in_context)
-2. Extract the file and copy the `<your_archive>/html/messages.htm` into this directory
-3. Run `python3 main.py`
+2. Extract the file and copy the `<your_archive>/html/messages.htm` into the main directory
+3. Run `python3 main.py <YOUR NAME>`
