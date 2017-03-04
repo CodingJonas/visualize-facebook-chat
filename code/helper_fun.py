@@ -3,6 +3,24 @@ import dateutil.parser
 from datetime import timedelta, datetime
 import pytz
 from collections import OrderedDict
+import numpy as np
+from scipy import ndimage
+
+
+def gaus_blur(data, sigma):
+    # Get data into numpy array
+    array_data = np.asarray(list(data.values()))
+    #  print(array_data)
+
+    # Filter data
+    array_data = ndimage.filters.gaussian_filter(array_data, sigma)
+
+    # Set data again
+    for key, val in zip(data, array_data):
+        data[key] = val
+
+    return data
+
 
 def day_to_minutes(sourcedate):
     minutes = sourcedate.minute
@@ -16,7 +34,7 @@ def add_months(sourcedate,months):
     return sourcedate.replace(year=_year, month=_month)
 
 def hasNumbers(inputString):
-    return bool(re.search(r'\d', inputString))
+    return bool(re.search(r'\d', inumpynputString))
 
 def replaceDE_EN(data):
     data = data[re.search(",", data).start():]
