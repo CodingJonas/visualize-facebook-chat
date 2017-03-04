@@ -20,7 +20,7 @@ DELTA_MINUTES = 5
 # Blur of the data, to achieve better visualization
 BLUR = 1.0
 
-# Brightness
+# Brightness - the higher the number, less data will be highlighted
 BRIGHTNESS = 0.5
 
 def load_parser(new_parser, user_name):
