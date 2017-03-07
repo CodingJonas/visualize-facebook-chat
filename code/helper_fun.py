@@ -21,6 +21,38 @@ def gaus_blur(data, sigma):
 
     return data
 
+def sort_data(data, days_per_circle, delta_minutes):
+    # Get start and end date
+    current_date = list(data.keys())[0]
+    final_date = list(data.keys())[-1]
+
+    # create variables for iteration over the days
+    day_delta = timedelta(days=days_per_circle)
+    next_date = current_date + day_delta
+    size_day = int(24*(60/delta_minutes))
+
+    sorted_data = {}
+    sorted_data[current_date] = OrderedDict.fromkeys([x*delta_minutes for x in range(0,size_day)], 0)
+
+    min_delta = timedelta(minutes=delta_minutes)
+    current_day = current_date  # Start with the earliest date
+    while next_date <= final_date:
+        current_minutes = day_to_minutes(current_day)
+        sorted_data[current_date][current_minutes] += data[current_day]
+        current_day += min_delta
+        if current_day >= next_date:
+            current_date = next_date
+            next_date += day_delta
+            sorted_data[current_date] = OrderedDict.fromkeys([x*delta_minutes for x in range(0, size_day)], 0)
+
+    # Remove last added date
+    sorted_data.pop(current_date, None)
+
+    # Sort dictionary
+    sorted_data = OrderedDict(sorted(sorted_data.items(), key=lambda t: t[0]))
+
+    return sorted_data
+
 
 def day_to_minutes(sourcedate):
     minutes = sourcedate.minute
