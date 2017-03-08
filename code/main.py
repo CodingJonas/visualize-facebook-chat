@@ -1,4 +1,5 @@
 import sys
+import matplotlib.pyplot as plt
 import os
 import pickle
 from fb_HTML_parser import FB_HTMLParser
@@ -10,7 +11,7 @@ import my_excepthook
 
 # The parsed data is saved, only if this is set to True the data will be parsed,
 # otherwise the parser will be loaded from a previously created file
-NEW_PARSER = True
+NEW_PARSER = False
 
 # Number of days to sum up for one circle
 DAYS_PER_CIRCLE = 7
@@ -22,7 +23,7 @@ DELTA_MINUTES = 5
 BLUR = 1.1
 
 # Brightness - the higher the number, less data will be highlighted
-BRIGHTNESS = 0.5
+BRIGHTNESS = 2.0
 
 def load_parser(new_parser, user_name):
     if(new_parser):
@@ -60,17 +61,45 @@ if __name__ == "__main__":
     data = gaus_blur(data, BLUR)
 
     #### Sort data
-    data_draw = sort_data(data, DAYS_PER_CIRCLE, DELTA_MINUTES)
+    #  data_draw = sort_data_days(data, DAYS_PER_CIRCLE, DELTA_MINUTES)
 
     #  print("{" + "\n".join("{}: {}".format(k, v) for k, v in data_draw.items()) + "}")
 
-    draw.draw_dates_circle(data_draw, thickness=DAYS_PER_CIRCLE, col_pow=BRIGHTNESS)
+    #  draw.draw_dates_circle(data_draw, thickness=DAYS_PER_CIRCLE, col_pow=BRIGHTNESS)
+
+    ###### Sum up each minute step
+    size_day = int(24*(60/DELTA_MINUTES))
+    data_minutes = OrderedDict.fromkeys([x*DELTA_MINUTES for x in range(0,size_day)], 0)
+
+    current_date = list(data.keys())[0]
+    final_date = list(data.keys())[-1]
+    final_date = final_date.replace(hour=0, minute=0)
+
+    min_delta = timedelta(minutes=DELTA_MINUTES)
+    current_minutes = 0
+
+    while current_date < final_date:
+        data_minutes[current_minutes] += data[current_date]
+
+        # Increment by one minute step
+        current_date += min_delta
+        current_minutes = (current_minutes + DELTA_MINUTES)%(24*60)
+
+    print(data_minutes)
+
+    plt.plot(list(data_minutes.keys()), list(data_minutes.values()))
+    plt.grid(True)
+    plt.show()
+
 
     ####### Sum up weekdays
     #  data_days = {'Monday': 0, 'Tuesday': 0, 'Wednesday': 0, 'Thursday': 0, 'Friday': 0, 'Saturday': 0, 'Sunday': 0}
     #  for key, item in parser.final_data.items():
         #  dayname = key.strftime("%A")
         #  data_days[dayname] += item
+
+    #  print(data_days)
+
 
     #  draw.draw_weekdays(data_days)
     #######
