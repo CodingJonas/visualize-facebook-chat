@@ -1,5 +1,4 @@
 import sys
-import matplotlib.pyplot as plt
 import os
 import pickle
 from fb_HTML_parser import FB_HTMLParser
@@ -67,6 +66,7 @@ if __name__ == "__main__":
 
     #  draw.draw_dates_circle(data_draw, thickness=DAYS_PER_CIRCLE, col_pow=BRIGHTNESS)
 
+
     ###### Sum up each minute step
     size_day = int(24*(60/DELTA_MINUTES))
     data_minutes = OrderedDict.fromkeys([x*DELTA_MINUTES for x in range(0,size_day)], 0)
@@ -85,11 +85,7 @@ if __name__ == "__main__":
         current_date += min_delta
         current_minutes = (current_minutes + DELTA_MINUTES)%(24*60)
 
-    print(data_minutes)
-
-    plt.plot(list(data_minutes.keys()), list(data_minutes.values()))
-    plt.grid(True)
-    plt.show()
+    draw.draw_minutes_circle(data_minutes)
 
 
     ####### Sum up weekdays

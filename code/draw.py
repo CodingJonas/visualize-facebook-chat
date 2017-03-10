@@ -1,7 +1,7 @@
 import pygame
 from pygame import gfxdraw
 import colorsys
-from math import pow
+from math import pow, sin, cos, pi
 import numpy as np
 import sys
 
@@ -101,3 +101,63 @@ def draw_dates_circle(data, sizeX=5000, sizeY=5000, thickness=7, min_radius=1, c
     screen.blit(image, (0,0))
     print("Save Image")
     pygame.image.save(screen, "../images/response_circle.png")
+
+
+
+def draw_minutes_circle(data):
+    #  screen = pygame.Surface((500,500))
+
+    pygame.init()
+    screen = pygame.display.set_mode((1000,1000))
+
+    while True:
+        screen.fill(BACKGROUND)
+
+        ## Normalize data
+        # Get data into numpy array
+        array_data = np.asarray(list(data.values()))
+
+        # normalize data
+        array_data = normalize(array_data)
+
+        array_data *= 200
+        array_data += 100
+        print(array_data)
+
+        length = len(array_data)
+        points_circle = [[0,0] for i in range(0,length)]
+        points_comp = [[0,0] for i in range(0,length)]
+
+        for i in range(0,length):
+            point = [0,0]
+
+            # Map radius on circle points
+            point[0] = cos(2*pi * i/length - 0.5*pi) * array_data[i]
+            point[1] = sin(2*pi * i/length - 0.5*pi) * array_data[i]
+            # Center points
+            point[0] += 500
+            point[1] += 500
+            points_circle[i] = point
+
+            point_comp = [0,0]
+            # Map radius on circle points
+            point_comp[0] = cos(2*pi * i/length) * 100
+            point_comp[1] = sin(2*pi * i/length) * 100
+            # Center points
+            point_comp[0] += 500
+            point_comp[1] += 500
+            points_comp[i] = point_comp
+
+        # draw array
+        gfxdraw.polygon(screen, points_circle, MIN_COLOR_HSV)
+        gfxdraw.polygon(screen, points_comp, MIN_COLOR_HSV)
+
+        screen.blit(screen,(0,0))
+        pygame.display.flip() # update the display
+
+
+def normalize(v):
+    max_val = np.amax(v)
+    if max_val ==0:
+        max_val =np.finfo(v.dtype).eps
+    return v/max_val
