@@ -29,7 +29,9 @@ def load_parser(new_parser, user_name):
         print("Parse messenger data for user", user_name)
         parser = FB_HTMLParser(DELTA_MINUTES, user_name)
         # Feed data, get messenger information from html document
-        with open('../messages.htm', 'r') as myfile:
+        # Get filepath
+        cur_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..', 'messages.htm'))
+        with open(cur_path, 'r') as myfile:
             data = myfile.read()
             parser.feed(data)
 
@@ -39,7 +41,9 @@ def load_parser(new_parser, user_name):
     else:
         # Load custom parser from file
         print("Load message information from recent parsing")
-        with open('store.pckl', 'rb') as f:
+        # Get filepath
+        cur_path = os.path.abspath(os.path.join(os.path.dirname( __file__ ), 'store.pckl'))
+        with open(cur_path, 'rb') as f:
             parser = pickle.load(f)
 
     return parser
@@ -59,34 +63,14 @@ if __name__ == "__main__":
     # Blur the data for aussagekrätigere visualization
     data = gaus_blur(data, BLUR)
 
-    #### Sort data
-    #  data_draw = sort_data_days(data, DAYS_PER_CIRCLE, DELTA_MINUTES)
+    # Sort data
+    data_days = sort_data_days(data, DAYS_PER_CIRCLE, DELTA_MINUTES)
+    data_minutes = sort_data_minutes(data, DELTA_MINUTES)
 
-    #  print("{" + "\n".join("{}: {}".format(k, v) for k, v in data_draw.items()) + "}")
+    # Draw everything
+    draw.draw_all(data_days, data_minutes, thickness=DAYS_PER_CIRCLE, col_pow=BRIGHTNESS)
 
-    #  draw.draw_dates_circle(data_draw, thickness=DAYS_PER_CIRCLE, col_pow=BRIGHTNESS)
-
-
-    ###### Sum up each minute step
-    size_day = int(24*(60/DELTA_MINUTES))
-    data_minutes = OrderedDict.fromkeys([x*DELTA_MINUTES for x in range(0,size_day)], 0)
-
-    current_date = list(data.keys())[0]
-    final_date = list(data.keys())[-1]
-    final_date = final_date.replace(hour=0, minute=0)
-
-    min_delta = timedelta(minutes=DELTA_MINUTES)
-    current_minutes = 0
-
-    while current_date < final_date:
-        data_minutes[current_minutes] += data[current_date]
-
-        # Increment by one minute step
-        current_date += min_delta
-        current_minutes = (current_minutes + DELTA_MINUTES)%(24*60)
-
-    draw.draw_minutes_circle(data_minutes)
-
+    print("Finished successfully")
 
     ####### Sum up weekdays
     #  data_days = {'Monday': 0, 'Tuesday': 0, 'Wednesday': 0, 'Thursday': 0, 'Friday': 0, 'Saturday': 0, 'Sunday': 0}
@@ -99,3 +83,5 @@ if __name__ == "__main__":
 
     #  draw.draw_weekdays(data_days)
     #######
+    #  print("{" + "\n".join("{}: {}".format(k, v) for k, v in data_draw.items()) + "}")
+

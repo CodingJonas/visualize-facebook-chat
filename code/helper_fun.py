@@ -57,6 +57,26 @@ def sort_data_days(data, days_per_circle, delta_minutes):
 
     return sorted_data
 
+def sort_data_minutes(data, delta_minutes):
+    size_day = int(24*(60/delta_minutes))
+    data_minutes = OrderedDict.fromkeys([x*delta_minutes for x in range(0,size_day)], 0)
+
+    current_date = list(data.keys())[0]
+    final_date = list(data.keys())[-1]
+    final_date = final_date.replace(hour=0, minute=0)
+
+    min_delta = timedelta(minutes=delta_minutes)
+    current_minutes = 0
+
+    while current_date < final_date:
+        data_minutes[current_minutes] += data[current_date]
+
+        # Increment by one minute step
+        current_date += min_delta
+        current_minutes = (current_minutes + delta_minutes)%(24*60)
+
+    return data_minutes
+
 
 def day_to_minutes(sourcedate):
     minutes = sourcedate.minute
