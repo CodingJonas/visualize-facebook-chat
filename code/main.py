@@ -12,7 +12,7 @@ import my_excepthook
 
 # The parsed data is saved, only if this is set to True the data will be parsed,
 # otherwise the parser will be loaded from a previously created file
-NEW_PARSER = False
+NEW_PARSER = True
 
 # Number of days to sum up for one circle
 DAYS_PER_CIRCLE = 7
