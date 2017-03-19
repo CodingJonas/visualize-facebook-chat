@@ -8,6 +8,8 @@ from helper_fun import *
 from collections import OrderedDict
 import my_excepthook
 
+# TODO: Check if data needs to be loaded by the parser again
+
 # The parsed data is saved, only if this is set to True the data will be parsed,
 # otherwise the parser will be loaded from a previously created file
 NEW_PARSER = False
