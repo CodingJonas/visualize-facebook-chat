@@ -3,9 +3,7 @@ import os
 import pickle
 from fb_HTML_parser import FB_HTMLParser
 import draw
-from datetime import datetime, timedelta
 from helper_fun import *
-from collections import OrderedDict
 import my_excepthook
 
 # TODO: Check if data needs to be loaded by the parser again
