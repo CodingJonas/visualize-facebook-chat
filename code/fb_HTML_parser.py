@@ -50,9 +50,10 @@ class FB_HTMLParser(HTMLParser):
         self.last_date = date
 
     def handle_user(self, data):
-        # Replace my id with my name
-        if data == '100000489294947@facebook.com':
-            data = "Jonas Natzer"
+        # Some names are not saved properly
+        # you can often figure out from messages who it is and simply replace it
+        if data == '100000489284947@facebook.com':
+            data = "Max Power"
         self.last_user = data
 
     def handle_message(self, data):
